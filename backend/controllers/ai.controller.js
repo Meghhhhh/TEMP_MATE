@@ -1,5 +1,6 @@
 import {run} from "../utils/geminiIntv.js";  
 import {runchat} from "../utils/chatbot.js";
+import { runcomp } from "../utils/comparator.js";
 
 export const getIntvQues = async (req, res) => {
     try {
@@ -19,6 +20,18 @@ export const chatbot = async (req, res) => {
     try {
         const { prompt } = req.body;
         const result = await runchat(prompt);
+        console.log("ressss",result);
+        res.json({ result: result }); 
+    } catch (error) {
+        console.error("Error parsing JSON:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};
+
+export const comparator = async (req, res) => {
+    try {
+        const { prompt } = req.body;
+        const result = await runcomp(prompt);
         console.log("ressss",result);
         res.json({ result: result }); 
     } catch (error) {

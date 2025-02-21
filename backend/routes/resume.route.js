@@ -5,6 +5,7 @@ import {
   generateSummary,
   getAllProjects,
   getAllSkills,
+  getResumeByUserId,
   updateResume,
   uploadResume,
 } from "../controllers/resume.controller.js";
@@ -19,5 +20,6 @@ router
 router.route("/update-extract").post(isAuthenticated, updateResume);
 router.route("/getSkills").get(isAuthenticated, getAllSkills);
 router.route("/getProjects").get(isAuthenticated, getAllProjects);
+router.route("/get-details").post(getResumeByUserId);
 
 export default router;

@@ -109,7 +109,7 @@ const ResumeBuilder = () => {
   // Helper function to check if AI summary can be generated
   const canGenerateAISummary = () => {
     return (
-      (resumeData.skills ?? []).length > 0 &&
+      (resumeData.skills ?? [])?.length > 0 &&
       (resumeData.experience ?? []).some(exp => exp?.role?.trim()) &&
       (resumeData.projects ?? []).some(proj => proj?.name?.trim())
     );
@@ -134,7 +134,7 @@ const ResumeBuilder = () => {
       (resumeData.achievements ?? []).every(
         ach => ach?.title?.trim() && ach?.description?.trim(),
       ) &&
-      (resumeData.skills ?? []).length > 0
+      (resumeData.skills ?? [])?.length > 0
     );
   };
 
@@ -154,7 +154,7 @@ const ResumeBuilder = () => {
             Preview
           </h2>
           <div ref={contentRef} className="bg-white">
-          {resumeData.name || resumeData.email || resumeData.skills.length > 0 ? (
+          {resumeData.name || resumeData.email || resumeData.skills?.length > 0 ? (
               <Preview data={resumeData} />
             ) : (
               <p className="text-gray-500 text-center py-10">

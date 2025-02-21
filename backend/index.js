@@ -9,7 +9,7 @@ import jobRoute from "./routes/job.route.js";
 import applicationRoute from "./routes/application.route.js";
 
 import mockinterviewRoute from "./routes/mockinterview.routes.js";
-import "./geminiApi.js";
+// import "./geminiApi.js";
 
 import resumeRoute from "./routes/resume.route.js";
 import aiRoute from "./routes/ai.route.js";

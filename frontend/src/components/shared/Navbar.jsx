@@ -12,6 +12,7 @@ import { toast } from 'sonner';
 
 const Navbar = () => {
   const { user } = useSelector(store => store.auth);
+  
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -63,7 +64,7 @@ const Navbar = () => {
               </>
             )}
 
-            {user && (
+            {user && user.role !== "recruiter" && (
               <>
                 <li>
                   <Link to="/resume">Create-Resume</Link>

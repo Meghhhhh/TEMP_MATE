@@ -98,7 +98,7 @@ export const uploadResume = async (req, res) => {
       { _id: userId },
       {
         $set: {
-          "profile.skills": skills,
+          "profile.skills": skills.map((skill) => skill.name),
           "profile.bio": summary,
         },
       },

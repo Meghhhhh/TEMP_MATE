@@ -1,30 +1,31 @@
-import React, { useEffect } from "react";
-// import { toast } from "react-hot-toast";
+import React, { useEffect } from 'react';
+import { toast } from "sonner";
 
-import Navbar from "./shared/Navbar";
-import HeroSection from "./HeroSection";
-import CategoryCarousel from "./CategoryCarousel";
-import LatestJobs from "./LatestJobs";
-import Footer from "./shared/Footer";
-import useGetAllJobs from "@/hooks/useGetAllJobs";
+import Navbar from './shared/Navbar';
+import HeroSection from './HeroSection';
+import CategoryCarousel from './CategoryCarousel';
+import LatestJobs from './LatestJobs';
+import Footer from './shared/Footer';
+import useGetAllJobs from '@/hooks/useGetAllJobs';
 
-import { Button } from "./ui/button";
-import { APPLICATION_API_END_POINT } from "@/utils/constant";
-import axios from "axios";
+import { Button } from './ui/button';
+import { APPLICATION_API_END_POINT } from '@/utils/constant';
+import axios from 'axios';
 
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import RecommendedJobs from "./RecommendedJobs";
-
+import { useDispatch, useSelector } from 'react-redux';
+import { setAllAppliedJobs } from '@/redux/jobSlice';
+import { useNavigate } from 'react-router-dom';
+import RecommendedJobs from './RecommendedJobs';
 
 const Home = () => {
   useGetAllJobs();
-  const { user } = useSelector((store) => store.auth);
+  const { user } = useSelector(store => store.auth);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (user?.role === "recruiter") {
-      navigate("/admin/companies");
+    if (user?.role === 'recruiter') {
+      navigate('/admin/companies');
     }
   }, []);
 
@@ -34,15 +35,16 @@ const Home = () => {
         `${APPLICATION_API_END_POINT}/autoApplyForJobs`,
         {},
         {
-          withCredentials: true, 
-        }
+          withCredentials: true,
+        },
       );
 
-      console.log("Auto Apply Response:", response.data);
-      // toast.success("Successfully applied to jobs!");
+      console.log('Auto Apply Response:', response.data);
+      dispatch(setAllAppliedJobs(response.data.application));
+      toast.success("Successfully applied to jobs!");
     } catch (error) {
-      console.error("Error auto-applying:", error);
-      // toast.error(error.response?.data?.message || "Failed to auto-apply.");
+      console.error('Error auto-applying:', error);
+      toast.error(error.response?.data?.message || "Failed to auto-apply.");
     }
   };
 
@@ -58,7 +60,7 @@ const Home = () => {
           className="buttonContainer bg-[#6A38C2] text-white hover"
           variant="outline"
           size="lg"
-          onClick={() => navigate("/MockDashboard")}
+          onClick={() => navigate('/MockDashboard')}
         >
           Get your mock interviews for free 🚀
         </Button>

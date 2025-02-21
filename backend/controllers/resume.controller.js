@@ -197,7 +197,7 @@ export const updateResume = async (req, res) => {
 
 export const getAllSkills = async (req, res) => {
   try {
-    const  userId  = req.id;
+    const userId = req.id;
 
     if (!userId) {
       return res.status(400).json({ error: "User ID is required." });
@@ -216,10 +216,9 @@ export const getAllSkills = async (req, res) => {
   }
 };
 
-
-export const getAllProjects = async(req, res) => {
+export const getAllProjects = async (req, res) => {
   try {
-    const  userId  = req.id;
+    const userId = req.id;
 
     if (!userId) {
       return res.status(400).json({ error: "User ID is required." });
@@ -236,4 +235,28 @@ export const getAllProjects = async(req, res) => {
     console.error(error);
     return res.status(500).json({ error: "Error updating the resume." });
   }
-}
+};
+
+export const getResumeByUserId = async (req, res) => {
+  try {
+    const { userId } = req.body; 
+    console.log("Fetching resume for:", userId);
+
+    if (!userId) {
+      return res.status(400).json({ error: "User ID is required." });
+    }
+
+    const resume = await Resume.findOne({ userId }).exec(); // Force execution
+
+    console.log("Found resume:", resume);
+
+    if (!resume) {
+      return res.status(404).json({ error: "Resume not found." });
+    }
+
+    return res.status(200).json(resume);
+  } catch (error) {
+    console.error("❌ Error fetching resume:", error);
+    return res.status(500).json({ error: "Internal server error." });
+  }
+};

@@ -81,7 +81,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
   };
 
   return (
-    <div>
+    <div className="">
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent
           className="sm:max-w-[425px]"

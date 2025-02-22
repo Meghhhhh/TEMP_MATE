@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { useReactToPrint } from 'react-to-print';
 import { RESUME_API_END_POINT } from '@/utils/constant';
+
 import { setUser } from '@/redux/authSlice';
 import img1 from "../../assets/Home.png"
 const ResumeBuilder = () => {

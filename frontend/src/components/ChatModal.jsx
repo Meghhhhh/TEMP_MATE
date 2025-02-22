@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { AI_API_END_POINT } from '@/utils/constant';
 
+
 function ChatModal({ onClose }) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');

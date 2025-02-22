@@ -1,10 +1,9 @@
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import img1 from "../assets/Home.png";
-
+import { RESUME_API_END_POINT, AI_API_END_POINT } from '@/utils/constant';
 
 const Skills = () => {
   const [skills, setSkills] = useState([]);

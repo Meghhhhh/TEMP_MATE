@@ -125,8 +125,8 @@ const CameraScreen = ({ setTranscribedText }) => {
   };
 
   return (
-    <div className="w-[100%] border-2  flex m-20">
-      <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-lg">
+    <div className="w-[100%]   flex m-20">
+      <div className="bg-white/15 shadow-lg rounded-lg p-6 w-full max-w-lg">
         <ReactMediaRecorder
           video
           render={({ status, startRecording, stopRecording, mediaBlobUrl }) => (

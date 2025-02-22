@@ -15,11 +15,11 @@ import axios from "axios";
 import { USER_API_END_POINT } from "@/utils/constant";
 import { setUser } from "@/redux/authSlice";
 import { toast } from "sonner";
-
+import Cookies from "js-cookie";
 const UpdateProfileDialog = ({ open, setOpen }) => {
   const [loading, setLoading] = useState(false);
   const { user } = useSelector((store) => store.auth);
-
+  const token = Cookies.get("token");
   const [input, setInput] = useState({
     fullname: user?.fullname || "",
     email: user?.email || "",
@@ -60,10 +60,11 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
         `${USER_API_END_POINT}/profile/update`,
         formData,
         {
+          withCredentials: true,
           headers: {
             "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
           },
-          withCredentials: true,
         }
       );
       if (res.data.success) {

@@ -13,7 +13,7 @@ import { setSingleJob } from "@/redux/jobSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 import { setUser } from "@/redux/authSlice";
-
+import Cookies from "js-cookie";
 const JobDescription = () => {
   const { singleJob } = useSelector((store) => store.job);
   const { user } = useSelector((store) => store.auth);
@@ -32,12 +32,17 @@ const JobDescription = () => {
   const jobId = params.id;
   const hasResume = !!resumePreview || !!atsResume;
   const dispatch = useDispatch();
-
+  const token = Cookies.get("token");
   const applyJobHandler = async () => {
     try {
       const res = await axios.get(
         `${APPLICATION_API_END_POINT}/apply/${jobId}`,
-        { withCredentials: true }
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`, // Send token in Authorization header
+          },
+        }
       );
 
       if (res.data.success) {
@@ -76,9 +81,13 @@ const JobDescription = () => {
 
       formData.append("job_description", singleJob?.description);
 
-      const response = await axios.post(`${PYTHON_API_END_POINT}/ats`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const response = await axios.post(
+        `${PYTHON_API_END_POINT}/ats`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
 
       if (response.data) {
         setAtsFeedback(response.data); // Store ATS feedback
@@ -103,7 +112,10 @@ const JobDescription = () => {
         formData,
         {
           withCredentials: true,
-          headers: { "Content-Type": "multipart/form-data" },
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 
@@ -126,6 +138,9 @@ const JobDescription = () => {
       try {
         const res = await axios.get(`${JOB_API_END_POINT}/get/${jobId}`, {
           withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`, // Send token in Authorization header
+          },
         });
         if (res.data.success) {
           dispatch(setSingleJob(res.data.job));

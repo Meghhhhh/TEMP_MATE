@@ -12,11 +12,13 @@ import { toast } from "sonner";
 import axios from "axios";
 import { PYTHON_API_END_POINT, RESUME_API_END_POINT } from "@/utils/constant";
 import Skills from "./Skills";
+import Cookies from "js-cookie";
 import { setUser } from "@/redux/authSlice";
 import img1 from "../assets/Home.png";
 
 const Profile = () => {
   useGetAppliedJobs();
+  const token = Cookies.get("token");
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const [extractedData, setExtractedData] = useState(null); // Store extracted data
@@ -87,9 +89,12 @@ const Profile = () => {
       const res = await axios.post(
         `${RESUME_API_END_POINT}/update-extract`,
         formattedData,
-        {
-          headers: { "Content-Type": "application/json" },
+         {
           withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       // dispatch(setUser(response.data.user));

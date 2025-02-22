@@ -7,7 +7,7 @@ import axios from 'axios';
 import { useReactToPrint } from 'react-to-print';
 import { RESUME_API_END_POINT } from '@/utils/constant';
 import { setUser } from '@/redux/authSlice';
-
+import img1 from "../../assets/Home.png"
 const ResumeBuilder = () => {
   const [resumeData, setResumeData] = useState({});
   const [isUploading, setIsUploading] = useState(false);
@@ -140,6 +140,14 @@ const ResumeBuilder = () => {
 
   return (
     <>
+     <div className="relative min-h-screen">
+          {/* Background Image */}
+          <div 
+            className="absolute inset-0 bg-cover bg-center -z-30"
+            style={{ backgroundImage: `url(${img1})` }}
+          >
+            <div className="absolute inset-0 bg-black/0"></div> {/* Dark Overlay */}
+          </div>
       <Navbar />
       <div className="container mx-auto p-6 flex gap-6">
         {/* Left: Form */}
@@ -196,6 +204,8 @@ const ResumeBuilder = () => {
           </button>
         </div>
       </div>
+   
+    </div>
     </>
   );
 };

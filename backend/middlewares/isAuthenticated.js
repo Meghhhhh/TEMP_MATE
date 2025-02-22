@@ -16,7 +16,10 @@ const isAuthenticated = async (req, res, next) => {
         }
   
         if (!token) {
-            throw new ApiError(401, "Unauthorized request - No token provided");
+            return res.status(401).json({
+        message: "No token found",
+        success: false,
+      });
         }
         const decode = jwt.verify(token, process.env.SECRET_KEY);
         if(!decode){

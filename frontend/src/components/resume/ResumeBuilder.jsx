@@ -140,7 +140,7 @@ const ResumeBuilder = () => {
 
   return (
     <>
-     <div className="relative min-h-screen">
+     <div className="relative min-h-screen ">
           {/* Background Image */}
           <div 
             className="absolute inset-0 bg-cover bg-center -z-30"
@@ -149,18 +149,18 @@ const ResumeBuilder = () => {
             <div className="absolute inset-0 bg-black/0"></div> {/* Dark Overlay */}
           </div>
       <Navbar />
-      <div className="container mx-auto p-6 flex gap-6">
+      <div className="container mx-auto p-6 flex gap-6 ">
         {/* Left: Form */}
-        <div className="w-1/2 bg-white border-2 p-6 rounded-lg shadow-lg">
-          <h2 className="font-bold border-b pb-2 text-center text-xl text-gray-700">
+        <div className="w-1/2 bg-white/15 p-6 rounded-lg shadow-lg ">
+          <h2 className="font-bold border-b pb-2 text-center text-xl text-white">
             Build Your Resume
           </h2>
           <FormSection onUpdate={setResumeData} />
         </div>
 
         {/* Right: Preview */}
-        <div className="w-1/2 border-2 bg-white p-6 rounded-lg shadow-lg h-screen sticky top-4 overflow-y-auto">
-          <h2 className="font-bold border-b pb-2 text-center text-xl text-gray-700">
+        <div className="w-1/2  bg-white/15 p-6 rounded-lg shadow-lg h-screen sticky top-4 overflow-y-auto">
+          <h2 className="font-bold border-b pb-2 text-center text-xl text-white">
             Live Preview
           </h2>
           <div ref={contentRef} className="bg-gray-100 p-4 rounded-md">

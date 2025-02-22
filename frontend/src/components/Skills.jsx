@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import { RESUME_API_END_POINT } from '@/utils/constant';
+import { RESUME_API_END_POINT, AI_API_END_POINT } from '@/utils/constant';
 import { useNavigate } from 'react-router-dom';
 
 const Skills = () => {
@@ -43,7 +43,7 @@ const Skills = () => {
       const custinput = `${prefix}${itemName} (Level ${itemLevel})`;
 
       // Call AI Mock Interview API
-      const response = await fetch('${AI_API_END_POINT}/mock-intv', {
+      const response = await fetch(`${AI_API_END_POINT}/mock-intv`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prompt: custinput }),

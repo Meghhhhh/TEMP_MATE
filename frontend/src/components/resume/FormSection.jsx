@@ -102,12 +102,12 @@ const FormSection = ({ onUpdate }) => {
   return (
    <div className='z-10'>
       <div className="w-full max-w-3xl p-6 rounded-lg shadow-md mb-3 ">
-        <h2 className="text-lg font-semibold">Upload Resume</h2>
-        <form onSubmit={handleSubmitResume} className="mt-4">
+        <h2 className="text-lg font-semibold text-white">Upload Resume</h2>
+        <form onSubmit={handleSubmitResume} className="mt-4 bg-white/10">
           <input
             type="file"
             accept=".pdf"
-            className="block w-full text-sm text-gray-300 p-2 rounded-lg cursor-pointer bg-gray-700 focus:outline-none"
+            className="block w-full text-sm bg-white/20 text-white p-2 rounded-lg cursor-pointer bg-gray-700 focus:outline-none"
             onChange={e => handleFileChange(e, setResumeFile)}
           />
           <button
@@ -123,9 +123,9 @@ const FormSection = ({ onUpdate }) => {
           </button>
         </form>
       </div>
-      <form className="max-w-4xl mx-auto border-2 border-black bg-white p-6 shadow-md rounded-lg space-y-4">
+      <form className="max-w-4xl mx-auto bg-white/15 p-6 shadow-md rounded-lg space-y-4">
         {/* Personal Info */}
-        <h2 className="text-xl font-bold border-b pb-1">
+        <h2 className="text-xl font-bold border-b pb-1 text-white">
           Personal Information
         </h2>
         <input
@@ -133,7 +133,7 @@ const FormSection = ({ onUpdate }) => {
           placeholder="Full Name"
           value={formData.name}
           onChange={e => handleChange(e, null, 'name')}
-          className="input-field"
+          className="input-field "
         />
         <input
           type="email"
@@ -151,7 +151,7 @@ const FormSection = ({ onUpdate }) => {
         />
 
         {/* Summary */}
-        <h2 className="text-xl font-bold border-b pb-1">Summary</h2>
+        <h2 className="text-xl font-bold border-b pb-1 text-white">Summary</h2>
         <textarea
           placeholder="Write a brief summary (Optional). It will be AI generated if you choose not to."
           value={formData.summary}
@@ -161,7 +161,7 @@ const FormSection = ({ onUpdate }) => {
         />
 
         {/* Skills */}
-        <h2 className="text-xl font-bold border-b pb-1">Skills</h2>
+        <h2 className="text-xl font-bold border-b pb-1 text-white">Skills</h2>
         <input
           type="text"
           placeholder="Skills (comma-separated)"
@@ -178,7 +178,7 @@ const FormSection = ({ onUpdate }) => {
         />
 
         {/* Education */}
-        <h2 className="text-xl font-bold border-b pb-1">Education</h2>
+        <h2 className="text-xl font-bold border-b pb-1 text-white">Education</h2>
         {formData.education.map((edu, index) => (
           <div key={index} className="space-y-2">
             <input
@@ -243,7 +243,7 @@ const FormSection = ({ onUpdate }) => {
         </button>
 
         {/* Experience */}
-        <h2 className="text-xl font-bold border-b pb-1">Experience</h2>
+        <h2 className="text-xl font-bold border-b pb-1 text-white">Experience</h2>
         {formData.experience.map((exp, index) => (
           <div key={index} className="space-y-2">
             <input
@@ -300,7 +300,7 @@ const FormSection = ({ onUpdate }) => {
         </button>
 
         {/* Achievements */}
-        <h2 className="text-xl font-bold border-b pb-1">Key Achievements</h2>
+        <h2 className="text-xl font-bold border-b pb-1 text-white">Key Achievements</h2>
         {formData.achievements.map((ach, index) => (
           <div key={index} className="space-y-2">
             <input
@@ -331,7 +331,7 @@ const FormSection = ({ onUpdate }) => {
         </button>
 
         {/* Projects */}
-        <h2 className="text-xl font-bold border-b pb-1">Projects</h2>
+        <h2 className="text-xl font-bold border-b pb-1 text-white">Projects</h2>
         {formData.projects.map((proj, index) => (
           <div key={index} className="space-y-2">
             <input

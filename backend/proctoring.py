@@ -35,14 +35,18 @@ def analyze_video(video_path):
     frame_count = 0
     suspicious_frames = 0
     feedback_set = set()  
-
+    frame_skip = 5   # Process every 5th frame for speed
+    frame_width = 640  
     while cap.isOpened():
         ret, frame = cap.read()
         if not ret:
             break  
 
         frame_count += 1
+        if frame_count % frame_skip != 0:  # Skip frames to improve speed
+            continue
         h, w, _ = frame.shape
+        frame_resized = cv2.resize(frame, (frame_width, frame_width))
         rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
         # Face detection
@@ -50,13 +54,13 @@ def analyze_video(video_path):
 
         if not face_results.detections:
             feedback_set.add("No face detected in some frames.")
-            suspicious_frames += 1
+            suspicious_frames += 5
             continue  
 
         face_count = len(face_results.detections)
         if face_count > 1:
             feedback_set.add("Multiple faces detected in some frames.")
-            suspicious_frames += 1
+            suspicious_frames += 5
 
         # Face movement detection (head turning more than 45 degrees)
         eyes_center = []
@@ -70,7 +74,7 @@ def analyze_video(video_path):
 
             if head_rotation_degrees > 45:
                 feedback_set.add("Candidate turned head significantly (more than 45 degrees).")
-                suspicious_frames += 1
+                suspicious_frames += 5
 
         # Object detection (detect mobile phone)
         phone_results = phone_detector(frame)
@@ -78,13 +82,13 @@ def analyze_video(video_path):
             label = phone_detector.names[int(cls)]
             if label == "cell phone" and conf > 0.5:
                 feedback_set.add("Mobile phone detected in some frames.")
-                suspicious_frames += 1
+                suspicious_frames += 5
 
         # Hand movement detection
         hand_results = hand_detector.process(rgb_frame)
         if hand_results.multi_hand_landmarks:
             feedback_set.add("Suspicious hand movement detected.")
-            suspicious_frames += 1
+            suspicious_frames += 5
 
     cap.release()
 

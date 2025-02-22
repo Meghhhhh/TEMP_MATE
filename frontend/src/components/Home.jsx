@@ -1,21 +1,17 @@
 import React, { useEffect } from "react";
-// import { toast } from "react-hot-toast";
-
 import Navbar from "./shared/Navbar";
 import HeroSection from "./HeroSection";
 import CategoryCarousel from "./CategoryCarousel";
 import LatestJobs from "./LatestJobs";
 import Footer from "./shared/Footer";
+import RecommendedJobs from "./RecommendedJobs";
 import useGetAllJobs from "@/hooks/useGetAllJobs";
-
 import { Button } from "./ui/button";
 import { APPLICATION_API_END_POINT } from "@/utils/constant";
 import axios from "axios";
-
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import RecommendedJobs from "./RecommendedJobs";
-
+import img1 from "../assets/Home.png"; // Importing img1 properly
 
 const Home = () => {
   useGetAllJobs();
@@ -37,44 +33,45 @@ const Home = () => {
           withCredentials: true, 
         }
       );
-
       console.log("Auto Apply Response:", response.data);
-      // toast.success("Successfully applied to jobs!");
     } catch (error) {
       console.error("Error auto-applying:", error);
-      // toast.error(error.response?.data?.message || "Failed to auto-apply.");
     }
   };
 
   return (
-    <div>
-      <Navbar />
-      <HeroSection />
-      <CategoryCarousel />
-
-      {/* Centered Button */}
-      <div className="flex justify-center my-10">
-        <Button
-          className="buttonContainer bg-[#6A38C2] text-white hover"
-          variant="outline"
-          size="lg"
-          onClick={() => navigate("/MockDashboard")}
-        >
-          Get your mock interviews for free 🚀
-        </Button>
-        <Button
-          className="buttonContainer bg-[#6A38C2] text-white hover mx-3"
-          variant="outline"
-          size="lg"
-          onClick={handleAutoApply}
-        >
-          Auto apply for jobs
-        </Button>
+    <div className="relative min-h-screen">
+      {/* Background Image */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `url(${img1})` }}
+      >
+        <div className="absolute inset-0 bg-black/0"></div> {/* Dark Overlay */}
       </div>
 
-      <LatestJobs />
-      <RecommendedJobs />
-      <Footer />
+      {/* Content Wrapper */}
+      <div className="relative z-10">
+        <Navbar />
+        <HeroSection />
+        <CategoryCarousel />
+
+        {/* Centered Buttons */}
+        <div className="flex justify-center my-10">
+          
+          <Button
+            className="buttonContainer bg-white/10 backdrop-blur-md text-white hover mx-3 rounded-3xl"
+            variant="outline"
+            size="lg"
+            onClick={handleAutoApply}
+          >
+            Auto apply for jobs
+          </Button>
+        </div>
+
+        <LatestJobs />
+        <RecommendedJobs />
+        <Footer />
+      </div>
     </div>
   );
 };

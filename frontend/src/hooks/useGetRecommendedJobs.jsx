@@ -3,8 +3,9 @@ import { JOB_API_END_POINT } from "@/utils/constant";
 import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-
+import Cookies from "js-cookie";
 const useGetRecommendedJobs = () => {
+  const token = Cookies.get("token");
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -12,6 +13,9 @@ const useGetRecommendedJobs = () => {
       try {
         const res = await axios.get(`${JOB_API_END_POINT}/recommend`, {
           withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`, // Send token in Authorization header
+          },
         });
         console.log(res);
 

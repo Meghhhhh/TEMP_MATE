@@ -6,10 +6,11 @@ import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { useReactToPrint } from 'react-to-print';
 import { RESUME_API_END_POINT } from '@/utils/constant';
-
+import Cookies from "js-cookie";
 import { setUser } from '@/redux/authSlice';
 import img1 from "../../assets/Home.png"
 const ResumeBuilder = () => {
+    const token = Cookies.get("token");
   const [resumeData, setResumeData] = useState({});
   const [isUploading, setIsUploading] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -86,9 +87,12 @@ const ResumeBuilder = () => {
         `${RESUME_API_END_POINT}/upload-resume`,
         formData,
         {
-          headers: { 'Content-Type': 'multipart/form-data' },
           withCredentials: true,
-        },
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`, // Send token in Authorization header
+          },
+        }
       );
 
       if (response.data.success) {

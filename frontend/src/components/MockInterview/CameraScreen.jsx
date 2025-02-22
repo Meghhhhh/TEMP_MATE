@@ -67,7 +67,7 @@ const CameraScreen = ({ setTranscribedText }) => {
       formData.append('video', videoBlob, 'recording.webm');
 
       const uploadResponse = await axios.post(
-        `${INTV_API_END_POINT}/api/v1/mockinterview/upload-video`,
+        `${INTV_API_END_POINT}/upload-video`,
         formData,
         { headers: { 'Content-Type': 'multipart/form-data' } },
       );

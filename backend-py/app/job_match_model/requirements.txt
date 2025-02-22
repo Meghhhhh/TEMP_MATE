@@ -1,0 +1,8 @@
+pandas
+numpy
+xgboost
+fastapi
+uvicorn
+scikit-learn
+nltk
+joblib

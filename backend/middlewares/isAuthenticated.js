@@ -14,13 +14,14 @@ console.log(token);
                 token = authHeader.substring(7);
             }
         }
-  
+  console.log(token);
         if (!token) {
             return res.status(401).json({
         message: "No token found",
         success: false,
       });
         }
+        console.log(token);
         const decode = jwt.verify(token, process.env.SECRET_KEY);
         if(!decode){
             return res.status(401).json({

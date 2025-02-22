@@ -97,10 +97,10 @@ const TestPage = ({ questions = [], transcribedText }) => {
   
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen border-x-lime-200 text-black p-6 w-[100%]">
-      <div className="bg-white border border-purple-500 p-6 rounded-2xl shadow-lg w-full max-w-lg text-center">
-        <h2 className="text-2xl font-bold text-purple-600 mb-4">Question {currentQuestion + 1}</h2>
-        <p className="mb-4 text-black font-medium">
+    <div className="flex flex-col items-center justify-center min-h-screen text-black p-6 w-[100%]">
+      <div className="bg-white/10  p-6 rounded-2xl shadow-lg w-full max-w-lg text-center">
+        <h2 className="text-2xl font-bold text-purple-300 mb-4">Question {currentQuestion + 1}</h2>
+        <p className="mb-4 text-white  font-medium">
           {questionList[currentQuestion]?.question || "Please provide the input you would like me to base the questions on."}
         </p>
         <button 
@@ -110,7 +110,7 @@ const TestPage = ({ questions = [], transcribedText }) => {
           🔊 Play Question
         </button>
         <textarea
-          className="w-full p-3 rounded-lg border border-purple-500 text-black focus:outline-none focus:ring-2 focus:ring-purple-500 mb-4"
+          className="w-full p-3 rounded-lg border border-purple-500 text-white  focus:outline-none focus:ring-2 focus:ring-purple-500 mb-4"
           value={answers[currentQuestion]}
           onChange={handleChange}
           placeholder="Type your answer here..."

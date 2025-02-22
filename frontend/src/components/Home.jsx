@@ -6,7 +6,7 @@ import HeroSection from "./HeroSection";
 import CategoryCarousel from "./CategoryCarousel";
 import LatestJobs from "./LatestJobs";
 import Footer from "./shared/Footer";
-
+import Cookies from "js-cookie";
 import useGetAllJobs from "@/hooks/useGetAllJobs";
 
 import { Button } from "./ui/button";
@@ -29,7 +29,8 @@ const Home = () => {
       navigate('/admin/companies');
     }
   }, []);
-
+  const token = Cookies.get("token");
+  
   const handleAutoApply = async () => {
     try {
       const response = await axios.post(
@@ -37,7 +38,10 @@ const Home = () => {
         {},
         {
           withCredentials: true,
-        },
+          headers: {
+            Authorization: `Bearer ${token}`, // Send token in Authorization header
+          },
+        }
       );
 
       console.log('Auto Apply Response:', response.data);

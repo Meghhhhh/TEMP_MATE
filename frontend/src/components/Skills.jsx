@@ -3,14 +3,15 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import img1 from "../assets/Home.png";
+import Cookies from "js-cookie";
 import { RESUME_API_END_POINT, AI_API_END_POINT } from '@/utils/constant';
 
 const Skills = () => {
   const [skills, setSkills] = useState([]);
   const [projects, setProjects] = useState([]);
-  const { user } = useSelector(store => store.auth);
+  const { user } = useSelector((store) => store.auth);
   const navigate = useNavigate();
-
+  const token = Cookies.get("token");
   useEffect(() => {
     fetchData();
   }, []);
@@ -19,17 +20,27 @@ const Skills = () => {
     try {
       const skillsResponse = await axios.get(
         `${RESUME_API_END_POINT}/getSkills`,
-        { withCredentials: true },
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`, // Send token in Authorization header
+          },
+        }
       );
       setSkills(skillsResponse.data.skills);
 
       const projectsResponse = await axios.get(
         `${RESUME_API_END_POINT}/getProjects`,
-        { withCredentials: true },
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`, // Send token in Authorization header
+          },
+        }
       );
       setProjects(projectsResponse.data.projects);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error("Error fetching data:", error);
     }
   };
 
@@ -39,24 +50,24 @@ const Skills = () => {
       updatedItems[index].isVerified = true;
 
       const itemName = updatedItems[index].name;
-      const itemLevel = updatedItems[index].level + 1 || 'N/A'; // Default for projects without levels
-      const prefix = isProject ? 'Project: ' : 'Skill: ';
+      const itemLevel = updatedItems[index].level + 1 || "N/A"; // Default for projects without levels
+      const prefix = isProject ? "Project: " : "Skill: ";
       const custinput = `${prefix}${itemName} (Level ${itemLevel})`;
 
       // Call AI Mock Interview API
       const response = await fetch(`${AI_API_END_POINT}/mock-intv`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt: custinput }),
       });
 
       const data = await response.json();
-      console.log('Mock Interview Data:', data);
+      console.log("Mock Interview Data:", data);
 
       // Navigate to combined mock interview page
-      navigate('/combinedMock', { state: { questions: data } });
+      navigate("/combinedMock", { state: { questions: data } });
     } catch (error) {
-      console.error('Error during verification and AI request:', error);
+      console.error("Error during verification and AI request:", error);
     }
   };
 

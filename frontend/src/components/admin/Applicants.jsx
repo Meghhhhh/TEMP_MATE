@@ -11,20 +11,25 @@ import {
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setAllApplicants } from "@/redux/applicationSlice";
-
+import Cookies from "js-cookie";
 const Applicants = () => {
   const params = useParams();
   const dispatch = useDispatch();
   const { applicants } = useSelector((store) => store.application);
   const [sortedApplicants, setSortedApplicants] = useState(null);
   const [loading, setLoading] = useState(false);
-
+  const token = Cookies.get("token");
   useEffect(() => {
     const fetchAllApplicants = async () => {
       try {
         const res = await axios.get(
           `${APPLICATION_API_END_POINT}/${params.id}/applicants`,
-          { withCredentials: true }
+          {
+            withCredentials: true,
+            headers: {
+              Authorization: `Bearer ${token}`, // Send token in Authorization header
+            },
+          }
         );
 
         dispatch(setAllApplicants(res.data.job));
@@ -51,7 +56,12 @@ const Applicants = () => {
               // Change from GET to POST
               `${RESUME_API_END_POINT}/get-details`, // Ensure backend supports POST
               { userId: app.applicant._id }, // Send userId in request body
-              { withCredentials: true } // Include credentials if needed
+              {
+                withCredentials: true,
+                headers: {
+                  Authorization: `Bearer ${token}`, // Send token in Authorization header
+                },
+              } // Include credentials if needed
             );
             const resume = resumeRes.data;
             console.log({

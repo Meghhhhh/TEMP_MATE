@@ -11,6 +11,7 @@ import useGetAppliedJobs from "@/hooks/useGetAppliedJobs";
 import { toast } from "sonner";
 import axios from "axios";
 import { PYTHON_API_END_POINT, RESUME_API_END_POINT } from "@/utils/constant";
+
 import Skills from "./Skills";
 import Cookies from "js-cookie";
 import { setUser } from "@/redux/authSlice";

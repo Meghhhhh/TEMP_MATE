@@ -1,18 +1,18 @@
-import express from "express";
-import cookieParser from "cookie-parser";
-import cors from "cors";
-import dotenv from "dotenv";
-import connectDB from "./utils/db.js";
-import userRoute from "./routes/user.route.js";
-import companyRoute from "./routes/company.route.js";
-import jobRoute from "./routes/job.route.js";
-import applicationRoute from "./routes/application.route.js";
+import express from 'express';
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import connectDB from './utils/db.js';
+import userRoute from './routes/user.route.js';
+import companyRoute from './routes/company.route.js';
+import jobRoute from './routes/job.route.js';
+import applicationRoute from './routes/application.route.js';
 
-import mockinterviewRoute from "./routes/mockinterview.routes.js";
+import mockinterviewRoute from './routes/mockinterview.routes.js';
 // import "./geminiApi.js";
 
-import resumeRoute from "./routes/resume.route.js";
-import aiRoute from "./routes/ai.route.js";
+import resumeRoute from './routes/resume.route.js';
+import aiRoute from './routes/ai.route.js';
 
 dotenv.config({});
 
@@ -23,24 +23,39 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 const corsOptions = {
-  origin: ["http://localhost:5173", "https://job-mate.onrender.com"],
+  origin: ['http://localhost:5173', 'https://job-mate.onrender.com'],
   credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: [
+    'Content-Type',
+    'Authorization',
+    'Accept',
+    'Origin',
+    'X-Requested-With',
+  ],
+  exposedHeaders: ['Set-Cookie'],
 };
 
 app.use(cors(corsOptions));
+app.use(express.json());
+app.use(cookieParser());
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Credentials', 'true');
+  next();
+});
 
 const PORT = process.env.PORT || 3000;
 
 // api's
-app.use("/api/v1/user", userRoute);
-app.use("/api/v1/company", companyRoute);
-app.use("/api/v1/job", jobRoute);
-app.use("/api/v1/application", applicationRoute);
+app.use('/api/v1/user', userRoute);
+app.use('/api/v1/company', companyRoute);
+app.use('/api/v1/job', jobRoute);
+app.use('/api/v1/application', applicationRoute);
 
-app.use("/api/v1/mockinterview", mockinterviewRoute);
+app.use('/api/v1/mockinterview', mockinterviewRoute);
 
-app.use("/api/v1/resume", resumeRoute);
-app.use("/api/v1/ai", aiRoute);
+app.use('/api/v1/resume', resumeRoute);
+app.use('/api/v1/ai', aiRoute);
 
 app.listen(PORT, () => {
   connectDB();

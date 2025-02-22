@@ -7,6 +7,7 @@ import {
   PYTHON_API_END_POINT,
   RESUME_API_END_POINT,
 } from "@/utils/constant";
+
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setAllApplicants } from "@/redux/applicationSlice";

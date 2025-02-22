@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import img1 from "../assets/Home.png";
 import Cookies from "js-cookie";
+import { RESUME_API_END_POINT, AI_API_END_POINT } from '@/utils/constant';
 
 const Skills = () => {
   const [skills, setSkills] = useState([]);

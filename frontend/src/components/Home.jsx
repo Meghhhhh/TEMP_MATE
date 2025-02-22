@@ -1,26 +1,32 @@
 import React, { useEffect } from "react";
+// import { toast } from "react-hot-toast";
+import { toast } from "sonner";
 import Navbar from "./shared/Navbar";
 import HeroSection from "./HeroSection";
 import CategoryCarousel from "./CategoryCarousel";
 import LatestJobs from "./LatestJobs";
 import Footer from "./shared/Footer";
-import RecommendedJobs from "./RecommendedJobs";
+
 import useGetAllJobs from "@/hooks/useGetAllJobs";
+
 import { Button } from "./ui/button";
 import { APPLICATION_API_END_POINT } from "@/utils/constant";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from 'react-redux';
+import { setAllAppliedJobs } from '@/redux/jobSlice';
 import { useNavigate } from "react-router-dom";
-import img1 from "../assets/Home.png"; // Importing img1 properly
+import RecommendedJobs from "./RecommendedJobs";
+import img1 from "../assets/Home.png"; //
 
 const Home = () => {
   useGetAllJobs();
-  const { user } = useSelector((store) => store.auth);
+  const { user } = useSelector(store => store.auth);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (user?.role === "recruiter") {
-      navigate("/admin/companies");
+    if (user?.role === 'recruiter') {
+      navigate('/admin/companies');
     }
   }, []);
 
@@ -30,12 +36,16 @@ const Home = () => {
         `${APPLICATION_API_END_POINT}/autoApplyForJobs`,
         {},
         {
-          withCredentials: true, 
-        }
+          withCredentials: true,
+        },
       );
-      console.log("Auto Apply Response:", response.data);
+
+      console.log('Auto Apply Response:', response.data);
+      dispatch(setAllAppliedJobs(response.data.application));
+      toast.success("Successfully applied to jobs!");
     } catch (error) {
-      console.error("Error auto-applying:", error);
+      console.error('Error auto-applying:', error);
+      toast.error(error.response?.data?.message || "Failed to auto-apply.");
     }
   };
 

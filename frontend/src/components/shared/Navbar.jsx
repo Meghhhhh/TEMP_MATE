@@ -12,6 +12,7 @@ import { toast } from 'sonner';
 
 const Navbar = () => {
   const { user } = useSelector(store => store.auth);
+  
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -63,7 +64,7 @@ const Navbar = () => {
               </>
             )}
 
-            {user && (
+            {user && user.role !== "recruiter" && (
               <>
                 <li>
                   <Link to="/resume">Create-Resume</Link>
@@ -103,9 +104,9 @@ const Navbar = () => {
                     </Avatar>
                     <div>
                       <h4 className="font-medium">{user?.fullname}</h4>
-                      <p className="text-sm text-muted-foreground">
+                      {/* <p className="text-sm text-muted-foreground">
                         {user?.profile?.bio}
-                      </p>
+                      </p> */}
                     </div>
                   </div>
                   <div className="flex flex-col my-2 text-gray-600">

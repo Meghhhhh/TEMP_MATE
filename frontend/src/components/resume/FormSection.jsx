@@ -100,8 +100,8 @@ const FormSection = ({ onUpdate }) => {
   };
 
   return (
-    <>
-      <div className="w-full max-w-3xl p-6 rounded-lg shadow-md">
+   <div className='z-10'>
+      <div className="w-full max-w-3xl p-6 rounded-lg shadow-md mb-3 ">
         <h2 className="text-lg font-semibold">Upload Resume</h2>
         <form onSubmit={handleSubmitResume} className="mt-4">
           <input
@@ -362,7 +362,7 @@ const FormSection = ({ onUpdate }) => {
         Generate Resume
       </button> */}
       </form>
-    </>
+    </div>
   );
 };
 

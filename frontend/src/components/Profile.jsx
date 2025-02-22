@@ -6,16 +6,18 @@ import { Contact, FileText, Mail, Pen } from "lucide-react";
 import { Label } from "./ui/label";
 import AppliedJobTable from "./AppliedJobTable";
 import UpdateProfileDialog from "./UpdateProfileDialog";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import useGetAppliedJobs from "@/hooks/useGetAppliedJobs";
 import { toast } from "sonner";
 import axios from "axios";
 import { PYTHON_API_END_POINT, RESUME_API_END_POINT } from "@/utils/constant";
 import Skills from "./Skills";
+import { setUser } from "@/redux/authSlice";
 
 const Profile = () => {
   useGetAppliedJobs();
   const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
   const [extractedData, setExtractedData] = useState(null); // Store extracted data
   const { user } = useSelector((store) => store.auth);
   const isResume = !!user?.profile?.resume;
@@ -89,6 +91,7 @@ const Profile = () => {
           withCredentials: true,
         }
       );
+      // dispatch(setUser(response.data.user));
 
       toast.dismiss();
       if (res.status === 200 || res.status === 201) {

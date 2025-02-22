@@ -30,17 +30,25 @@ async function run(prompt) {
       {
         role: "user",
         parts: [
-          {
-            text: "You are an AI ATS friendly summarizer which gives ATS friendly summary for resume in exact 20 words based on Skills, Experience and projects provided.",
-          },
+          {text: "You are an AI ATS friendly summarizer which gives ATS friendly summary for resume in 300-400 words based on Skills, Experience and projects provided."},
         ],
       },
       {
         role: "model",
         parts: [
-          {
-            text: "Please provide me with the Skills, Experience, and Projects you want me to analyze. I need this information to generate an ATS-friendly resume summary. \n\n**Here's what I'll need from you:**\n\n* **Skills:** List your technical skills, soft skills, programming languages, frameworks, tools, etc.\n* **Experience:** Describe your work history, including company names, job titles, dates of employment, and key responsibilities. \n* **Projects:** Detail any personal or academic projects, highlighting the technologies used, your contributions, and achievements.\n\nOnce you share this information, I'll craft an exact 20 word ATS-friendly summary that showcases your strengths, experience, and success across Skills, Experience, and Projects. \n\n**Let's optimize your resume for success!** \n",
-          },
+          {text: "Please provide me with the Skills, Experience, and Projects you want me to analyze. I need this information to generate an ATS-friendly resume summary. \n\n**Here's what I'll need from you:**\n\n* **Skills:** List your technical skills, soft skills, programming languages, frameworks, tools, etc.\n* **Experience:** Describe your work history, including company names, job titles, dates of employment, and key responsibilities. \n* **Projects:** Detail any personal or academic projects, highlighting the technologies used, your contributions, and achievements.\n\nOnce you share this information, I'll craft a 300-400 word ATS-friendly summary that showcases your strengths, experience, and success across Skills, Experience, and Projects. \n\n**Let's optimize your resume for success!** \n"},
+        ],
+      },
+      {
+        role: "user",
+        parts: [
+          {text: "make sure you strictly stick to below 20-25 words. also present the same information in such a manner that ats score is very high and the candidate gets shortlisted anyhow. use all the necesarry tactics to inc ats score.\n"},
+        ],
+      },
+      {
+        role: "model",
+        parts: [
+          {text: "Please provide me with the Skills, Experience, and Projects you want me to analyze. I need this information to generate a highly optimized 20-25 word ATS-friendly resume summary. \n\n**Here's what I'll need from you:**\n\n* **Skills:** List your technical skills, soft skills, programming languages, frameworks, tools, etc. (Be specific and use industry keywords)\n* **Experience:** Describe your work history, including company names, job titles, dates of employment, and key responsibilities. (Quantify achievements whenever possible)\n* **Projects:** Detail any personal or academic projects, highlighting the technologies used, your contributions, and achievements. (Focus on hands-on experience and success metrics)\n\nOnce you share this detailed information, I'll apply advanced AI techniques to:\n\n* **Extract high-frequency keywords:**  Analyzing your input to identify terms that strongly correlate with successful ATS performance.\n* **Optimize sentence structure:** Crafting concise, impactful phrases that prioritize keyword density and readability.\n* **Implement semantic analysis:**  Ensuring your summary aligns with the hidden patterns ATS systems use to rank candidates. \n\nBy working together, we'll create a 20-25 word summary that maximizes your ATS score, driving you towards more interview opportunities. \n"},
         ],
       },
     ],
@@ -98,7 +106,7 @@ export const uploadResume = async (req, res) => {
       { _id: userId },
       {
         $set: {
-          "profile.skills": skills,
+          "profile.skills": skills.map((skill) => skill.name),
           "profile.bio": summary,
         },
       },
@@ -192,5 +200,71 @@ export const updateResume = async (req, res) => {
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Error updating the resume." });
+  }
+};
+
+export const getAllSkills = async (req, res) => {
+  try {
+    const userId = req.id;
+
+    if (!userId) {
+      return res.status(400).json({ error: "User ID is required." });
+    }
+
+    const resume = await Resume.findOne({ userId });
+
+    if (!resume) {
+      return res.status(404).json({ error: "Resume not found." });
+    }
+    console.log(resume.skills);
+    return res.status(200).json({ skills: resume.skills });
+  } catch (error) {
+    console.error("Error fetching skills:", error);
+    return res.status(500).json({ error: "Internal server error." });
+  }
+};
+
+export const getAllProjects = async (req, res) => {
+  try {
+    const userId = req.id;
+
+    if (!userId) {
+      return res.status(400).json({ error: "User ID is required." });
+    }
+
+    const resume = await Resume.findOne({ userId });
+
+    if (!resume) {
+      return res.status(404).json({ error: "Resume not found." });
+    }
+    console.log(resume.projects);
+    return res.status(200).json({ projects: resume.projects });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Error updating the resume." });
+  }
+};
+
+export const getResumeByUserId = async (req, res) => {
+  try {
+    const { userId } = req.body; 
+    console.log("Fetching resume for:", userId);
+
+    if (!userId) {
+      return res.status(400).json({ error: "User ID is required." });
+    }
+
+    const resume = await Resume.findOne({ userId }).exec(); // Force execution
+
+    console.log("Found resume:", resume);
+
+    if (!resume) {
+      return res.status(404).json({ error: "Resume not found." });
+    }
+
+    return res.status(200).json(resume);
+  } catch (error) {
+    console.error("❌ Error fetching resume:", error);
+    return res.status(500).json({ error: "Internal server error." });
   }
 };

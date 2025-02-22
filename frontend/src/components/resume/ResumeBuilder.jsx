@@ -7,7 +7,7 @@ import axios from 'axios';
 import { useReactToPrint } from 'react-to-print';
 import { RESUME_API_END_POINT } from '@/utils/constant';
 import { setUser } from '@/redux/authSlice';
-
+import img1 from "../../assets/Home.png"
 const ResumeBuilder = () => {
   const [resumeData, setResumeData] = useState({});
   const [isUploading, setIsUploading] = useState(false);
@@ -43,18 +43,18 @@ const ResumeBuilder = () => {
         )
         .join('. ');
 
-        const response = await axios.post(
-          `${RESUME_API_END_POINT}/generateSummary`,
-          { prompt },
-        );
+      const response = await axios.post(
+        `${RESUME_API_END_POINT}/generateSummary`,
+        { prompt },
+      );
 
-        console.log(response.data.data.candidates[0].content.parts[0].text);
+      console.log(response.data.data.candidates[0].content.parts[0].text);
 
-        if (response.status === 201 && response?.data?.data) {
-          setResumeData(prev => ({
-            ...prev,
-            summary: response.data.data.candidates[0].content.parts[0].text,
-          }));
+      if (response.status === 201 && response?.data?.data) {
+        setResumeData(prev => ({
+          ...prev,
+          summary: response.data.data.candidates[0].content.parts[0].text,
+        }));
       }
     } catch (error) {
       console.log('Error generating summary:', error);
@@ -109,7 +109,7 @@ const ResumeBuilder = () => {
   // Helper function to check if AI summary can be generated
   const canGenerateAISummary = () => {
     return (
-      (resumeData.skills ?? []).length > 0 &&
+      (resumeData.skills ?? [])?.length > 0 &&
       (resumeData.experience ?? []).some(exp => exp?.role?.trim()) &&
       (resumeData.projects ?? []).some(proj => proj?.name?.trim())
     );
@@ -134,27 +134,39 @@ const ResumeBuilder = () => {
       (resumeData.achievements ?? []).every(
         ach => ach?.title?.trim() && ach?.description?.trim(),
       ) &&
-      (resumeData.skills ?? []).length > 0
+      (resumeData.skills ?? [])?.length > 0
     );
   };
 
   return (
     <>
+     <div className="relative min-h-screen">
+          {/* Background Image */}
+          <div 
+            className="absolute inset-0 bg-cover bg-center -z-30"
+            style={{ backgroundImage: `url(${img1})` }}
+          >
+            <div className="absolute inset-0 bg-black/0"></div> {/* Dark Overlay */}
+          </div>
       <Navbar />
       <div className="container mx-auto p-6 flex gap-6">
         {/* Left: Form */}
-        <div className="w-1/2 bg-white border-2 p-4 rounded-lg shadow-md overflow-y-scroll">
-          <h2 className="font-bold border-b pb-1 text-center text-xl">Form</h2>
+        <div className="w-1/2 bg-white border-2 p-6 rounded-lg shadow-lg">
+          <h2 className="font-bold border-b pb-2 text-center text-xl text-gray-700">
+            Build Your Resume
+          </h2>
           <FormSection onUpdate={setResumeData} />
         </div>
 
-        {/* Right: Preview (Fixed) */}
-        <div className="w-1/2 border-2 bg-white p-4 rounded-lg shadow-md h-screen sticky top-0 overflow-y-auto">
-          <h2 className="font-bold border-b pb-1 text-center text-xl">
-            Preview
+        {/* Right: Preview */}
+        <div className="w-1/2 border-2 bg-white p-6 rounded-lg shadow-lg h-screen sticky top-4 overflow-y-auto">
+          <h2 className="font-bold border-b pb-2 text-center text-xl text-gray-700">
+            Live Preview
           </h2>
-          <div ref={contentRef} className="bg-white">
-          {resumeData.name || resumeData.email || resumeData.skills.length > 0 ? (
+          <div ref={contentRef} className="bg-gray-100 p-4 rounded-md">
+            {resumeData.name ||
+            resumeData.email ||
+            resumeData.skills?.length > 0 ? (
               <Preview data={resumeData} />
             ) : (
               <p className="text-gray-500 text-center py-10">
@@ -163,42 +175,44 @@ const ResumeBuilder = () => {
             )}
           </div>
 
-          {/* AI generation  */}
+          {/* AI Summary Button */}
           <button
             onClick={handleAIGenSum}
-            title='Please fill Skills, Experience & Projects for AI generated summary!'
-            className={`mt-4 p-2 rounded-md transition ${
+            title="Please fill Skills, Experience & Projects for AI-generated summary!"
+            className={`mt-4 w-full p-3 rounded-lg font-semibold transition ${
               canGenerateAISummary()
                 ? 'bg-blue-600 text-white hover:bg-blue-700'
                 : 'bg-gray-400 text-gray-200 cursor-not-allowed'
             }`}
             disabled={!canGenerateAISummary() || isGenerating}
           >
-            {isGenerating ? 'Please wait...' : 'Generate AI summary'}
+            {isGenerating ? 'Generating...' : 'Generate AI Summary'}
           </button>
 
           {/* PDF Download Button */}
           <button
             onClick={handleGenerateAndUpload}
-            title='Please fill all the fields to download the pdf!'
-            className={`m-4 p-2 rounded-md transition ${
+            title="Please fill all the fields to download the PDF!"
+            className={`mt-4 w-full p-3 rounded-lg font-semibold transition ${
               isResumeComplete()
-                ? 'bg-blue-600 text-white hover:bg-blue-700'
+                ? 'bg-green-600 text-white hover:bg-green-700'
                 : 'bg-gray-400 text-gray-200 cursor-not-allowed'
             }`}
             disabled={!isResumeComplete() || isUploading}
           >
-            {isUploading ? 'Please wait...' : 'Generate PDF'}
+            {isUploading ? 'Processing...' : 'Generate PDF'}
           </button>
         </div>
       </div>
+   
+    </div>
     </>
   );
 };
 
 export default ResumeBuilder;
 
-// only download from create-resume, 
+// only download from create-resume,
 
 // import React, { useState, useRef } from 'react';
 // import FormSection from './FormSection';

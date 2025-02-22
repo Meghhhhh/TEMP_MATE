@@ -23,6 +23,7 @@ import ChatModal from './components/ChatModal';
 import ResumeBuilder from './components/resume/ResumeBuilder'
 import MockDashboard from './components/MockInterview/MockDashboard'
 import CombinedMock from './components/CombinedMock';
+import Comparator from './components/Comparator';
 
 const appRouter = createBrowserRouter([
   { path: '/', element: <Home /> },
@@ -30,6 +31,7 @@ const appRouter = createBrowserRouter([
   { path: '/signup', element: <Signup /> },
   { path: '/jobs', element: <Jobs /> },
   { path: '/description/:id', element: <JobDescription /> },
+  { path: '/comparator', element: <Comparator /> },
   { path: '/browse', element: <Browse /> },
   { path: '/profile', element: <Profile /> },
   { path: "/resume", element: <ResumeBuilder /> },

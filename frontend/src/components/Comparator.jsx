@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { AI_API_END_POINT } from '@/utils/constant';
+
 import {
   BarChart,
   Bar,

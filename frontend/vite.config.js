@@ -13,7 +13,7 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  server: {
+  preview: {
     port: process.env.PORT || 5173, // Use the PORT environment variable or default to 3000
     host: "0.0.0.0", // Allow external access
     strictPort: true, // Ensure the port does not auto-switch

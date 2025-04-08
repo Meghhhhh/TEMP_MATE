@@ -23,7 +23,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 const corsOptions = {
-  origin: ['http://localhost:5173', 'https://job-mate.onrender.com'],
+  origin: ['http://localhost:5173', 'https://job-mate.onrender.com', 'https://temp-mate.onrender.com'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
   allowedHeaders: [

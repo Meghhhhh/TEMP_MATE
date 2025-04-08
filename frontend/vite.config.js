@@ -17,7 +17,7 @@ export default defineConfig({
     port: process.env.PORT || 5173, // Use the PORT environment variable or default to 3000
     host: "0.0.0.0", // Allow external access
     strictPort: true, // Ensure the port does not auto-switch
-    allowedHosts: ["job-mate.onrender.com"], // ✅ Move this outside preview
+    allowedHosts: ["https://temp-mate.onrender.com"], // ✅ Move this outside preview
   },
   define: {
     "process.env": process.env,
